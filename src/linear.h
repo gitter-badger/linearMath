@@ -16,8 +16,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef CORE_H
-#define CORE_H
+#ifndef LINEAR_H
+#define LINEAR_H
 
 #include "SDK\amx\amx.h"
 #include "SDK\plugincommon.h"
@@ -59,24 +59,5 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload()
 	logprintf("|    Author: codectile   |");
 	logprintf(" ________________________ ");
 }
-
-//vectors
-void addVectors(btVector3& vector1, btVector3& vector2, btVector3& resultant);
-void dotProduct(btVector3& vector1, btVector3& vector2, btScalar& product);
-void crossProduct(btVector3& vector1, btVector3& vector2, btVector3& product);
-void getVectorAngle(btVector3& vector1, btVector3& vector2, btScalar& angle);
-void getDistance(btVector3& vector1, btVector3& vector2, btScalar& distance, bool flag = false);
-void getMagnitude(btVector3& vector, btScalar& magnitude, bool flag = false);
-void getNormalized(btVector3& vector, btVector3& normalized);
-void getClosestAxis(btVector3& vector, int& axis);
-void getFurthestAxis(btVector3& vector, int& axis);
-void rotateVector(btVector3& vector, btVector3& axis, btScalar& angle, btVector3& resultant);
-void getReflectedVector(btVector3& incident, btVector3& hitpoint, btVector3& reflected);
-//quaternions
-void getQuaternionAngle(btQuaternion& quat, btScalar& angle);
-void getAxisOfRotation(btQuaternion& quat, btVector3& angle);
-void dotProductQuaternion(btQuaternion& quat1, btQuaternion& quat2, btScalar& product);
-void getQuaternionMagnitude(btQuaternion& quat, btScalar& magnitude, bool flag = false);
-void getInverseQuaternion(btQuaternion& quat, btQuaternion& inverse);
 
 #endif
