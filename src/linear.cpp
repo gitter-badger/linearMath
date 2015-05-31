@@ -16,7 +16,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "core.h"
+#include "linear.h"
 
 //vectors
 cell AMX_NATIVE_CALL AddVectors(AMX* amx, cell* params)
@@ -24,7 +24,7 @@ cell AMX_NATIVE_CALL AddVectors(AMX* amx, cell* params)
 	btVector3 vector1(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	btVector3 vector2(amx_ctof(params[4]), amx_ctof(params[5]), amx_ctof(params[6]));
 	btVector3 resultant;
-	addVectors(vector1, vector2, resultant);
+	resultant = vector1 + vector2;
 	cell* mem_add[3];
 	amx_GetAddr(amx, params[7], &mem_add[0]);
 	amx_GetAddr(amx, params[8], &mem_add[1]);
@@ -40,7 +40,7 @@ cell AMX_NATIVE_CALL DotProduct(AMX* amx, cell* params)
 	btVector3 vector1(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	btVector3 vector2(amx_ctof(params[4]), amx_ctof(params[5]), amx_ctof(params[6]));
 	btScalar resultant;
-	dotProduct(vector1, vector2, resultant);
+	resultant = vector1.dot(vector2);
 	return amx_ftoc(resultant);
 }
 
@@ -49,7 +49,7 @@ cell AMX_NATIVE_CALL CrossProduct(AMX* amx, cell* params)
 	btVector3 vector1(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	btVector3 vector2(amx_ctof(params[4]), amx_ctof(params[5]), amx_ctof(params[6]));
 	btVector3 resultant;
-	crossProduct(vector1, vector2, resultant);
+	resultant = vector1.cross(vector2);
 	cell* mem_add[3];
 	amx_GetAddr(amx, params[7], &mem_add[0]);
 	amx_GetAddr(amx, params[8], &mem_add[1]);
@@ -65,7 +65,7 @@ cell AMX_NATIVE_CALL GetVectorAngle(AMX* amx, cell* params)
 	btVector3 vector1(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	btVector3 vector2(amx_ctof(params[4]), amx_ctof(params[5]), amx_ctof(params[6]));
 	float angle;
-	getVectorAngle(vector1, vector2, angle);
+	angle = vector1.angle(vector2);
 	return amx_ftoc(angle);
 }
 
@@ -74,7 +74,10 @@ cell AMX_NATIVE_CALL GetDistance(AMX* amx, cell* params)
 	btVector3 vector1(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	btVector3 vector2(amx_ctof(params[4]), amx_ctof(params[5]), amx_ctof(params[6]));
 	float distance;
-	getDistance(vector1, vector2, distance);
+	if(params[7] == 1)
+		distance = vector1.distance(vector2);
+	else
+		distance = vector1.distance2(vector2);
 	return amx_ftoc(distance);
 }
 
@@ -82,15 +85,17 @@ cell AMX_NATIVE_CALL GetMagnitude(AMX* amx, cell* params)
 {
 	btVector3 vector(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	float magnitude;
-	getMagnitude(vector, magnitude);
+	if(params[4] == 1)
+		magnitude = vector.length();
+	else
+		magnitude = vector.length2();
 	return amx_ftoc(magnitude);
 }
 
 cell AMX_NATIVE_CALL GetNormalized(AMX* amx, cell* params)
 {
 	btVector3 vector(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
-	btVector3 normalized;
-	getNormalized(vector, normalized);
+	btVector3 normalized = vector.normalize();
 	cell* mem_add[3];
 	amx_GetAddr(amx, params[4], &mem_add[0]);
 	amx_GetAddr(amx, params[5], &mem_add[1]);
@@ -104,16 +109,14 @@ cell AMX_NATIVE_CALL GetNormalized(AMX* amx, cell* params)
 cell AMX_NATIVE_CALL GetClosestAxis(AMX* amx, cell* params)
 {
 	btVector3 vector(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
-	int axis;
-	getClosestAxis(vector, axis);
+	int axis = vector.closestAxis();
 	return axis;
 }
 
 cell AMX_NATIVE_CALL GetFurthestAxis(AMX* amx, cell* params)
 {
 	btVector3 vector(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
-	int axis;
-	getFurthestAxis(vector, axis);
+	int axis = vector.furthestAxis();
 	return axis;
 }
 
@@ -121,8 +124,7 @@ cell AMX_NATIVE_CALL RotateVector(AMX* amx, cell* params)
 {
 	btVector3 vector(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	btVector3 axis(amx_ctof(params[4]), amx_ctof(params[5]), amx_ctof(params[6]));
-	btVector3 resultant;
-	rotateVector(vector, axis, amx_ctof(params[7]), resultant);
+	btVector3 resultant = vector.rotate(axis, amx_ctof(params[7]));
 	cell* mem_add[3];
 	amx_GetAddr(amx, params[8], &mem_add[0]);
 	amx_GetAddr(amx, params[9], &mem_add[1]);
@@ -137,8 +139,7 @@ cell AMX_NATIVE_CALL GetReflectedVector(AMX* amx, cell* params)
 {
 	btVector3 vector(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]));
 	btVector3 normal(amx_ctof(params[4]), amx_ctof(params[5]), amx_ctof(params[6]));
-	btVector3 resultant;
-	getReflectedVector(vector, normal, resultant);
+	btVector3 resultant = vector - (2 * (vector.dot(normal)) * (normal.normalize()));;
 	cell* mem_add[3];
 	amx_GetAddr(amx, params[7], &mem_add[0]);
 	amx_GetAddr(amx, params[8], &mem_add[1]);
@@ -152,17 +153,16 @@ cell AMX_NATIVE_CALL GetReflectedVector(AMX* amx, cell* params)
 //quaternions
 cell AMX_NATIVE_CALL GetQuaternionAngle(AMX* amx, cell* params)
 {
-	btQuaternion quat(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]), amx_ctof(params[4]));
-	float angle;
-	getQuaternionAngle(quat, angle);
+	btQuaternion quat1(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]), amx_ctof(params[4]));
+	btQuaternion quat2(amx_ctof(params[5]), amx_ctof(params[6]), amx_ctof(params[7]), amx_ctof(params[8]));
+	float angle = quat1.angle(quat2);
 	return amx_ftoc(angle);
 }
 
 cell AMX_NATIVE_CALL GetAxisOfRotation(AMX* amx, cell* params)
 {
 	btQuaternion quat(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]), amx_ctof(params[4]));
-	btVector3 angle;
-	getAxisOfRotation(quat, angle);
+	btVector3 angle = quat.getAxis();
 	cell* mem_add[3];
 	amx_GetAddr(amx, params[7], &mem_add[0]);
 	amx_GetAddr(amx, params[8], &mem_add[1]);
@@ -177,8 +177,7 @@ cell AMX_NATIVE_CALL DotProductQuaternion(AMX* amx, cell* params)
 {
 	btQuaternion quat1(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]), amx_ctof(params[4]));
 	btQuaternion quat2(amx_ctof(params[5]), amx_ctof(params[6]), amx_ctof(params[7]), amx_ctof(params[8]));
-	btScalar product;
-	dotProductQuaternion(quat1, quat2, product);
+	btScalar product = quat1.dot(quat2);
 	return amx_ftoc(product);
 }
 
@@ -186,15 +185,17 @@ cell AMX_NATIVE_CALL GetQuaternionMagnitude(AMX* amx, cell* params)
 {
 	btQuaternion quat(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]), amx_ctof(params[4]));
 	btScalar magnitude;
-	getQuaternionMagnitude(quat, magnitude);
+	if(params[5] == 1)
+		magnitude = quat.length();
+	else
+		magnitude = quat.length2();
 	return amx_ftoc(magnitude);
 }
 
 cell AMX_NATIVE_CALL GetInverseQuaternion(AMX* amx, cell* params)
 {
 	btQuaternion quat(amx_ctof(params[1]), amx_ctof(params[2]), amx_ctof(params[3]), amx_ctof(params[4]));
-	btQuaternion inverse;
-	getInverseQuaternion(quat, inverse);
+	btQuaternion inverse = quat.inverse();
 	cell* mem_add[4];
 	amx_GetAddr(amx, params[5], &mem_add[0]);
 	amx_GetAddr(amx, params[6], &mem_add[1]);
