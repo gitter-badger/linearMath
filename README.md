@@ -19,7 +19,7 @@ native	RotateVector(Float:x, Float:y, Float:z, Float:ax, Float:ay, Float:az, Flo
 native	GetReflectedVector(Float:x, Float:y, Float:z, Float:nx, Float:ny, Float:nz, &Float:rx, &Float:ry, &Float:rz);
 
 //quaternions
-native	Float:GetQuaternionAngle(Float:x, Float:y, Float:z, Float:w);
+native	Float:GetQuaternionAngle(Float:x1, Float:y1, Float:z1, Float:w1, Float:x2, Float:y2, Float:z2, Float:w2);
 native	GetAxisOfRotation(Float:x, Float:y, Float:z, Float:w, &Float:x1, &Float:y1, &Float:z1);
 native	Float:DotProductQuaternion(Float:x1, Float:y1, Float:z1, Float:w1, Float:x2, Float:y2, Float:z2, Float:w2);
 native	Float:GetQuaternionMagnitude(Float:x, Float:y, Float:z, Float:w);
@@ -169,12 +169,17 @@ rz - passed-by-reference, the component z of the reflected vector
 ```
 
 
-#####GetQuaternionAngle - Returns the angle of a quaternion
+#####GetQuaternionAngle - Returns the angle between two quaternions
 ```
-x - x component of a quaternion
-y - y component of a quaternion
-z - z component of a quaternion
-w - w component of a quaternion
+x1 - x component of a quaternion1
+y1 - y component of a quaternion1
+z1 - z component of a quaternion1
+w1 - w component of a quaternion1
+
+x2 - x component of a quaternion2
+y2 - y component of a quaternion2
+z2 - z component of a quaternion2
+w2 - w component of a quaternion2
 ```
 
 #####GetAxisOfRotation - Returns the axis of rotation of a quaternion
