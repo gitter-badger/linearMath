@@ -32,7 +32,7 @@ native	RotateVector(Float:x, Float:y, Float:z, Float:ax, Float:ay, Float:az, Flo
 native	GetReflectedVector(Float:x, Float:y, Float:z, Float:nx, Float:ny, Float:nz, &Float:rx, &Float:ry, &Float:rz);
 
 //quaternions
-native	Float:GetQuaternionAngle(Float:x, Float:y, Float:z, Float:w);
+native	Float:GetQuaternionAngle(Float:x1, Float:y1, Float:z1, Float:w1, Float:x2, Float:y2, Float:z2, Float:w2);
 native	GetAxisOfRotation(Float:x, Float:y, Float:z, Float:w, &Float:x1, &Float:y1, &Float:z1);
 native	Float:DotProductQuaternion(Float:x1, Float:y1, Float:z1, Float:w1, Float:x2, Float:y2, Float:z2, Float:w2);
 native	Float:GetQuaternionMagnitude(Float:x, Float:y, Float:z, Float:w);
