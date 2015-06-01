@@ -1,4 +1,6 @@
 # linearMath
+
+[![Join the chat at https://gitter.im/codectile/linearMath](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/codectile/linearMath?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Linear mathematics plugin for sa-mp. This plugin is based upon Bullet's LinearMath library, to provide fast and efficient vector as well as quaternion math calculations. It completely utilizes, **S**ingle **I**nstruction, **M**ultiple **D**ata (**SIMD**) method of parallel computing which makes it fast as well as efficient.
 
 ##Functions
